@@ -15,8 +15,11 @@
     box-sizing: border-box;
     font-family: 'Gilroy',sans-serif;
 }
-html{
-    font-size: 16px;
+
+body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 .hide{
     display: none;
@@ -43,7 +46,7 @@ header{
     align-items: center;   /* center the y*/
     /*justify-content: space-between;  /*center the x*/
     width: 100%;
-    height: 60px;
+    height: 10%;
     margin: 0 ;       /*x,y=0 */
     background-color: black;
     opacity: 0.99;
@@ -86,7 +89,7 @@ nav ul li a{
 /* -------- BG IMAGE -------- */
 .stats{
     width: 100%;
-    
+    height: 90%;
     background-image:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)) ,url(../img/bg2.jpg);
     background-size: cover;
     background-position: center;
@@ -105,6 +108,7 @@ nav ul li a{
 
 .country,
 .total-cases,
+.active,
 .recovered,
 .deaths{
     height: 100px;
@@ -129,7 +133,11 @@ nav ul li a{
     font-size: 2em;
     font-weight: bold;
 }
-
+.active .value{
+    font-size: 2em;
+    font-weight: bold;
+    color: #009688;
+}
 .recovered .value{
     font-size: 2em;
     font-weight: bold;
@@ -149,8 +157,9 @@ nav ul li a{
 
 .chart{
     width: 80%;
-    height: 70vh;
-    min-height: 500px;
+    /* height: 70vh; */
+    /* min-height: 500px; */
+    height: 80%;
     margin: 0 auto;
     padding: 50px 0;
 }
@@ -245,26 +254,32 @@ nav ul li a{
     /*all devices below 600px*/
 
     html{
-        font-size: 6px;
+        font-size: 1rem;
+        overflow: hidden;
     }
     .latest-report{
         display: flex;
-        flex-direction: row;
+        flex-direction:inherit;
         padding-top: 20px;
         align-items: flex-start;
+    }
+    body{
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
     }
     header{
          align-items: center;   /* center the y*/
          width: 100%;
-         height: 70px;
+         height: 10%;
          margin: 0 ;       /*x,y=0 */
          background-color: black;
          opacity: 0.99;
-         font-size: 10px;
-         height: 40px;
+         /* font-size: 4rem; */
+         /* height: 40px; */
      }
     .title-name p{
-        font-size: 16px;
+        /* font-size: 1.2rem; */
     }
     .search-box{ 
         width: 100px;
@@ -286,6 +301,20 @@ nav ul li a{
         height: 25px;
     }
 
+    .country,
+    .total-cases .value,
+    .active .value,
+    .recovered .value,
+
+    .deaths .value,
+    .title-name,
+    nav,
+    .title,
+    .new-value{
+        /* height: 100px; */
+        font-size: 0.6rem;
+    }
+
     nav{
         position: absolute;
         right:0;
@@ -293,7 +322,7 @@ nav ul li a{
         vertical-align: middle;
         text-align: left;
         padding: 5px;
-        font-size: 8px;
+        /* font-size: 8px; */
     }
 
     .chart{
@@ -355,4 +384,9 @@ nav ul li a{
     100%{
         clip: rect(0,300px,100px,0);
         opacity: 0;
+    }
+}
+    html{
+        height: 100%;
+        font-size: 16px;
     }

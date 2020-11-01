@@ -2,6 +2,8 @@
 const country_name_element = document.querySelector(".country .name");
 const total_cases_element = document.querySelector(".total-cases .value");
 const new_cases_element = document.querySelector(".total-cases .new-value");
+const active_element = document.querySelector(".active .value");
+const new_active_element = document.querySelector(".active .new-value");
 const recovered_element = document.querySelector(".recovered .value");
 const new_recovered_element = document.querySelector(".recovered .new-value");
 const deaths_element = document.querySelector(".deaths .value");
@@ -11,6 +13,7 @@ const ctx = document.getElementById("axes_line_chart").getContext("2d");
 //data for app, declare all variables
 let app_data= [],
 	cases_list= [],
+	active_list=[],
 	recovered_list= [],
 	deaths_list =[],
 	dates =[],
@@ -30,10 +33,11 @@ let user_country='India';
 function fetchData(user_country){
 
 	//reset the arrays every time country is changed so that new data can be written
-	cases_list=[],recovered_list=[],deaths_list=[],dates=[],formatedDates=[],indexes=[];
+	cases_list=[],active_list=[],recovered_list=[],deaths_list=[],dates=[],formatedDates=[],indexes=[];
 
 	//API has a lag of 30 mins
 	const toDate =new Date(new Date().setDate(new Date().getDate()-0.5)).toISOString();
+	console.log('to date : '+toDate);
 
 	//${user_country}
 	//https://api.covid19api.com/country/india?from=2020-10-01T00:00:00Z&to=2020-10-29T00:00:00Z
@@ -57,9 +61,10 @@ function fetchData(user_country){
 					console.log("Country : "+DATA.Country+" :: province : "+DATA.Province+" :: city : "+DATA.City);
 					console.log("province length: "+DATA.Province.length);
 					// if(DATA.Province=="" && DATA.City==""){
-						if(DATA.Province.length==0 && DATA.City.length==0){
+						if(DATA.Province.trim().length==0 && DATA.City.trim().length==0){
 						formatedDates.push(formatDate(DATA.Date));
 						app_data.push(DATA);
+						active_list.push(DATA.Active);
 						cases_list.push(DATA.Confirmed);
 						recovered_list.push(DATA.Recovered);
 						deaths_list.push(DATA.Deaths);
@@ -92,9 +97,15 @@ function updateStats() {
 	/**total cases of latest entry.. replaces the total cases in top of the page */
 	total_cases_element.innerHTML=last_entry.Confirmed || 0; /** if no data, put 0 */
 	/**This is just add the symbol + */
-	new_cases_element.innerHTML=
-	`+${last_entry.Confirmed -before_last_entry.Confirmed}`;
+	let new_cases_count= last_entry.Confirmed -before_last_entry.Confirmed;
+	if(new_cases_count>=0){
+		new_cases_element.innerHTML=`+${new_cases_count}`;
+	}else{
+		new_cases_element.innerHTML=`-${Math.abs(new_cases_count)}`;
+	}
 
+	active_element.innerHTML=last_entry.Active || 0;
+	new_active_element.innerHTML=`+${last_entry.Active -before_last_entry.Active}`;
 
 	recovered_element.innerHTML=last_entry.Recovered ||0;
 	/** last but one-last  + is just a sign to show in UI */ 
@@ -128,6 +139,14 @@ function axesLinearChart(){
 				borderWidth:1,
 				pointRadius: 2.5
 			},{
+				label:'Active',
+				data: active_list,
+				fill:false,   
+				borderColor:'#f9813a',
+				backgroundColor:'#f9813a',
+				borderWidth:1,
+				pointRadius: 2
+			},{
 				label:'Deaths',
 				data: deaths_list,
 				fill:false,   
@@ -152,7 +171,7 @@ function axesLinearChart(){
 		options: {
 			responsive:true,
 			maintainAspectRatio:false,
-
+			
 		}
 	});
 
@@ -163,7 +182,7 @@ function axesLinearChart(){
 //Chart x axis was initially dates. the dates were in 2020-03-17,2020-03-18..
 //didn't like it.
 
-const monthsNames = ["Jan","Feb","Mar","Apr","May",	"Jun","Aug","Sep","Oct","Nov","Dec",];
+const monthsNames = ["Jan","Feb","Mar","Apr","May",	"Jun","Jul","Aug","Sep","Oct","Nov","Dec",];
 function formatDate(dateString) {
 	let date = new Date(dateString);
   
