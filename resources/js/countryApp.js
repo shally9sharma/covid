@@ -54,11 +54,16 @@ function fetchData(user_country){
 			console.log(data);
 			indexes.forEach(index=>{
 					let DATA=data[index];
-					formatedDates.push(formatDate(DATA.Date));
-					app_data.push(DATA);
-					cases_list.push(DATA.Confirmed);
-					recovered_list.push(DATA.Recovered);
-					deaths_list.push(DATA.Deaths);
+					console.log("Country : "+DATA.Country+" :: province : "+DATA.Province+" :: city : "+DATA.City);
+					console.log("province length: "+DATA.Province.length);
+					// if(DATA.Province=="" && DATA.City==""){
+						if(DATA.Province.length==0 && DATA.City.length==0){
+						formatedDates.push(formatDate(DATA.Date));
+						app_data.push(DATA);
+						cases_list.push(DATA.Confirmed);
+						recovered_list.push(DATA.Recovered);
+						deaths_list.push(DATA.Deaths);
+					}
 			});		
 		  }).then(()=>{
 			  updateUI();

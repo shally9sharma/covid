@@ -1,6 +1,6 @@
 // ALL COUNTRY NAMES WITH THEIR ISO CODE
 let country_list = [
-   /* { name: 'United States of America', code: 'US' },*/
+    { name: 'United States of America', code: 'US' },
     { name: 'Spain', code: 'ES' },
     { name: 'Italy', code: 'IT' },
     { name: 'France', code: 'FR' },
